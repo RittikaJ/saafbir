@@ -1,0 +1,7 @@
+# Vercel installs Python deps from requirements.txt (it does not use uv/pyproject by default).
+# Versions are pinned to uv.lock so the Vercel build matches the Render/Docker build.
+# Render keeps using pyproject.toml + uv.lock via the Dockerfile; this file is Vercel-only.
+fastapi==0.136.3
+uvicorn[standard]==0.48.0
+psycopg[binary]==3.3.4
+python-multipart==0.0.29

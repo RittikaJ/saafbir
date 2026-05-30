@@ -1,4 +1,15 @@
-"""Saaf Bir — FastAPI backend serving the web app + REST API over SQLite."""
+"""Saaf Bir — FastAPI backend serving the web app + REST API over SQLite/Postgres.
+
+Runs both as a long-lived server (Render via uvicorn) and as a single Vercel
+serverless function (Vercel auto-detects this `app` at the `app/main.py`
+entrypoint). The startup hook initialises the DB schema; on serverless this
+runs per cold start, which is fine because init_db() is idempotent
+(CREATE TABLE IF NOT EXISTS). It is wrapped so a transient DB outage during a
+cold start cannot crash the whole function — the schema is recreated on the
+next request that reaches a route's get_conn() anyway.
+"""
+import logging
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -6,14 +17,23 @@ from fastapi.staticfiles import StaticFiles
 
 from .db import init_db
 
+logger = logging.getLogger("saaf")
+
 WEB_DIR = Path(__file__).resolve().parent.parent / "web"
 
-app = FastAPI(title="Saaf Bir")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Idempotent schema bootstrap. Don't let a brief DB hiccup crash startup;
+    # CREATE TABLE IF NOT EXISTS is safe to retry on the next cold start.
+    try:
+        init_db()
+    except Exception:  # noqa: BLE001 - never block app startup on the DB
+        logger.exception("init_db() failed during startup; continuing")
+    yield
 
 
-@app.on_event("startup")
-def _startup() -> None:
-    init_db()
+app = FastAPI(title="Saaf Bir", lifespan=lifespan)
 
 
 @app.get("/healthz")
