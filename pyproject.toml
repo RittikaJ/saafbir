@@ -1,0 +1,12 @@
+[project]
+name = "saaf-bir"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.136.3",
+    "psycopg[binary]>=3.3.4",
+    "python-multipart>=0.0.29",
+    "uvicorn[standard]>=0.48.0",
+]

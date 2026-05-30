@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+saaf.db
+saaf.db-*
+*.csv
+.DS_Store
+.git/
+.playwright-mcp/

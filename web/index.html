@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saaf Bir</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<div class="top"><div class="wrap">
+  <div class="logo">♻️</div>
+  <div class="brand"><h1>Saaf Bir</h1><p>Waste Warriors × Bhasha · live app</p></div>
+</div></div>
+
+<nav class="tabs"><div class="wrap">
+  <button class="tab active" data-tab="map"><span class="ti">🗺️</span><span class="tl"><span class="tl-full">Live Map</span><span class="tl-short">Map</span></span></button>
+  <button class="tab" data-tab="report"><span class="ti">📸</span><span class="tl"><span class="tl-full">Report a Spot</span><span class="tl-short">Report</span></span></button>
+  <button class="tab" data-tab="dash"><span class="ti">📊</span><span class="tl"><span class="tl-full">Dashboard</span><span class="tl-short">Stats</span></span></button>
+  <button class="tab" data-tab="collector"><span class="ti">📱</span><span class="tl"><span class="tl-full">Collector</span><span class="tl-short">Collect</span></span></button>
+  <button class="tab" data-tab="reports"><span class="ti">📷</span><span class="tl"><span class="tl-full">Reports</span><span class="tl-short">Photos</span></span></button>
+</div></nav>
+
+<!-- MAP -->
+<div class="panel active" id="map"><div class="wrap">
+  <div class="phead"><h2>The living map</h2><p><b>Tap a filter to begin</b> — turn on burning &amp; littering spots, verified households, partners, or green zones. Then tap a pin for details &amp; actions.</p></div>
+  <div class="maplayout">
+    <div class="mapcard">
+      <div class="mapbar">
+        <button class="fchip off" data-layer="burn"><span class="d burn"></span>🔥 Burning</button>
+        <button class="fchip off" data-layer="black"><span class="d black"></span>🗑️ Littering</button>
+        <button class="fchip off" data-layer="ww"><span class="d ww"></span>✓ Waste Warriors</button>
+        <button class="fchip off" data-layer="bh"><span class="d bh"></span>★ Bhasha</button>
+        <button class="fchip off" id="zoneBtn"><span class="d" style="background:#74c69d"></span>🟢 Green zones</button>
+      </div>
+      <div id="mapLeaf"></div>
+    </div>
+    <div class="detail" id="mapDetail"><div class="emptyd">👆 Turn on a filter above, then tap a pin for details and actions.</div></div>
+  </div>
+</div></div>
+
+<!-- REPORT -->
+<div class="panel" id="report"><div class="wrap">
+  <div class="phead"><h2>Report it — a spot, or a missed pickup</h2><p>Flag a burning / littering spot, or “my garbage wasn’t collected”. Switch modes at the top.</p></div>
+  <div class="stage">
+    <div class="device"><div class="scr" id="repScr"></div></div>
+    <div class="cap">
+      <h3>Two report types</h3>
+      <ul>
+        <li><span class="n">🗺️</span><span><b>Spot report</b> — photo + geotag → saved to the database &amp; shown in Reports.</span></li>
+        <li><span class="n">🚛</span><span><b>Missed pickup</b> — raises a complaint, tracked with a 48-hr SLA.</span></li>
+        <li><span class="n">✅</span><span>Everything is stored in one database you can export.</span></li>
+      </ul>
+      <p class="hint">↑ try both modes — photos really upload</p>
+    </div>
+  </div>
+</div></div>
+
+<!-- DASHBOARD -->
+<div class="panel" id="dash"><div class="wrap">
+  <div class="phead"><h2>Admin dashboard</h2><p>Real FY26 Bir &amp; Gunehar user-fee data — household coverage, fee collection, and where it’s leaking.</p></div>
+  <div class="browser">
+    <div class="bbar"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+      <div class="url">saaf-bir · live data</div></div>
+    <div class="dash" id="dashBody"><div class="emptyd">Loading real data…</div></div>
+  </div>
+</div></div>
+
+<!-- COLLECTOR -->
+<div class="panel" id="collector"><div class="wrap">
+  <div class="phead"><h2>The collector’s daily loop</h2><p>The field tool: log each house as collected, take a UPI payment, or flag burning / refusal in one tap.</p></div>
+  <div class="stage">
+    <div class="device"><div class="scr" id="colScr"></div></div>
+    <div class="cap">
+      <h3>What’s happening</h3>
+      <ul>
+        <li><span class="n">1</span><span><b>Next house auto-loads</b> in route order.</span></li>
+        <li><span class="n">2</span><span><b>Collected</b> logs the pickup to the database.</span></li>
+        <li><span class="n">3</span><span><b>Skip</b> → tap a reason. Burning &amp; refusals become data.</span></li>
+      </ul>
+      <p class="hint">↑ buttons are live — every action is saved</p>
+    </div>
+  </div>
+</div></div>
+
+<!-- REPORTS GALLERY -->
+<div class="panel" id="reports"><div class="wrap">
+  <div class="phead"><h2>Reports coming in</h2><p>Live feed of what people on the ground flagged — photo, type &amp; location. Real submissions, stored in the database.</p></div>
+  <div class="exportbar">
+    <a href="/api/export/db" download>⬇️ Export full database (.db)</a>
+    <a href="/api/export/reports.csv" download>⬇️ Reports CSV</a>
+    <a href="/api/export/households.csv" download>⬇️ Households CSV</a>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:0 auto 14px">
+    <div id="repCount" style="font-size:13px;color:var(--muted)">Loading…</div>
+    <button class="btn btn-ghost" style="width:auto;padding:9px 16px;font-size:13px;margin:0" onclick="loadReports()">↻ Refresh</button>
+  </div>
+  <div id="repGrid" class="repgrid"></div>
+</div></div>
+
+<footer><div class="wrap">Saaf Bir · live app · FastAPI + SQLite · FY26 Bir &amp; Gunehar data</div></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+saaf.db
+saaf.db-journal
+saaf.db-wal
+saaf.db-shm
+__pycache__/
+*.pyc
+.venv/
+uploads/
+# never commit the PII household data
+*.csv
+.DS_Store
+.playwright-mcp/
+
+.env
