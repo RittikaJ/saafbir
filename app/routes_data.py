@@ -29,12 +29,11 @@ def dashboard():
         due, paid = fees["due"], fees["paid"]
         collection_rate = round(paid / due * 100, 1) if due else 0.0
 
-        # active vs inactive — based on each household's most recent non-empty month status
+        # active vs inactive — based on the LATEST month's status (honest current rate)
+        latest_month = MONTH_ORDER[-1]
         active = conn.execute(
-            """SELECT COUNT(*) c FROM households h
-               WHERE EXISTS (
-                 SELECT 1 FROM household_months m
-                 WHERE m.household_id = h.id AND m.status LIKE 'Active%')"""
+            """SELECT COUNT(*) c FROM household_months
+               WHERE month = ? AND status LIKE 'Active%'""", (latest_month,)
         ).fetchone()["c"]
         active_pct = round(active / total * 100, 1) if total else 0.0
 
@@ -61,8 +60,11 @@ def dashboard():
                WHERE status LIKE 'Active%' GROUP BY month""").fetchall()}
         trend = [{"month": m, "active": rawtrend.get(m, 0)} for m in MONTH_ORDER]
 
+        report_count = conn.execute("SELECT COUNT(*) c FROM reports").fetchone()["c"]
+
     return {
         "total_households": total,
+        "report_count": report_count,
         "by_type": by_type,
         "by_village": by_village,
         "active_households": active,

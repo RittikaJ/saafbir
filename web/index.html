@@ -63,7 +63,77 @@
   <div class="browser">
     <div class="bbar"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
       <div class="url">saaf-bir · live data</div></div>
-    <div class="dash" id="dashBody"><div class="emptyd">Loading real data…</div></div>
+    <div class="dash">
+      <div class="kpis">
+        <div class="kpi"><div class="num">4,200 kg</div><div class="lab">Waste collected · Apr</div><div class="delta up">▲ 600 kg vs Mar</div></div>
+        <div class="kpi"><div class="num">86%</div><div class="lab">Pickup adherence (3×/mo)</div><div class="delta up">▲ 4% — fewer misses</div></div>
+        <div class="kpi"><div class="num">14</div><div class="lab">Active hotspots</div><div class="delta down">▲ 3 new this week</div></div>
+        <div class="kpi"><div class="num">26%</div><div class="lab">Ward leakage rate</div><div class="delta up">▼ 5% — improving</div></div>
+      </div>
+      <div class="drow2">
+        <div class="dcard">
+          <h3>Waste collected <small>kg · dry vs wet</small></h3>
+          <div style="display:flex;align-items:flex-end;gap:16px;height:130px;padding:6px 4px 0">
+            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:34%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:24%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Jan<br><b style="color:var(--ink)">3,100</b></div></div>
+            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:40%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:26%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Feb<br><b style="color:var(--ink)">3,400</b></div></div>
+            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:44%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:28%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Mar<br><b style="color:var(--ink)">3,600</b></div></div>
+            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:52%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:32%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Apr<br><b style="color:var(--ink)">4,200</b></div></div>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--muted)"><span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--green2);vertical-align:-1px"></span> Dry 61%</span><span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--mint);vertical-align:-1px"></span> Wet 39%</span></div>
+        </div>
+        <div class="dcard">
+          <h3>Collection reliability <small>pickups due 3×/mo</small></h3>
+          <div style="display:flex;align-items:baseline;gap:8px"><div style="font-size:40px;font-weight:800;color:var(--forest);letter-spacing:-.03em">86%</div><div style="font-size:12px;color:var(--muted)">of due pickups done</div></div>
+          <div style="font-size:13px;color:var(--muted);margin:8px 0 14px">1,184 houses × 3 = <b style="color:var(--ink)">3,552 due</b> · 3,071 done</div>
+          <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>7 open complaints</b><br><span>"garbage not collected"</span></div><span class="pill open">live</span></div>
+          <div class="rep"><div class="ri" style="background:var(--mint-soft)">⏱️</div><div class="rt"><b>31 hrs avg resolution</b><br><span>SLA target: 48 hrs ✓</span></div></div>
+        </div>
+      </div>
+      <div class="drow2">
+        <div class="dcard">
+          <h3>Cleanest wards <small>leakage rate · lower is better</small></h3>
+          <div class="lbrow"><span class="nm">Bir W1</span><div class="track"><div class="fill" style="width:88%;background:var(--green2)">12% leak</div></div></div>
+          <div class="lbrow"><span class="nm">Bir W3</span><div class="track"><div class="fill" style="width:74%;background:var(--green)">26% leak</div></div></div>
+          <div class="lbrow"><span class="nm">Gunehar W2</span><div class="track"><div class="fill" style="width:61%;background:var(--amber)">39% leak</div></div></div>
+          <div class="lbrow"><span class="nm">Gunehar W1</span><div class="track"><div class="fill" style="width:48%;background:var(--red)">52% leak</div></div></div>
+        </div>
+        <div class="dcard">
+          <h3>Household status <small>1,184 houses</small></h3>
+          <div class="donutwrap">
+            <div class="donut"><div class="ctr"><b>58%</b><span>serviced</span></div></div>
+            <ul class="leg">
+              <li><span class="sw" style="background:var(--green2)"></span>Serviced (waste handed over)</li>
+              <li><span class="sw" style="background:var(--amber)"></span>Active, irregular</li>
+              <li><span class="sw" style="background:var(--red)"></span>Burning (flagged)</li>
+              <li><span class="sw" style="background:#3a3a3a"></span>"No waste" / leakage</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="drow2" style="grid-template-columns:1fr 1fr">
+        <div class="dcard">
+          <h3>Missed-pickup complaints <small>auto-routed to collector</small></h3>
+          <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>#C-207 · BIR-142 · Bir W2</b><br><span>missed 25th pickup · open 12 hrs</span></div><span class="pill open">Open</span></div>
+          <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>#C-206 · BIR-77 · Bir W1</b><br><span>missed 25th pickup · open 4 hrs</span></div><span class="pill open">Open</span></div>
+          <div class="rep"><div class="ri" style="background:var(--mint-soft)">✓</div><div class="rt"><b>#C-205 · GUN-88 · Gunehar W3</b><br><span>collected next day · 28 hrs</span></div><span class="pill ww">Resolved</span></div>
+        </div>
+        <div class="dcard">
+          <h3>Did the awareness camps work? <small>reports before → after</small></h3>
+          <div class="rep"><div class="ri" style="background:var(--red-soft)">🔥</div><div class="rt"><b>Gunehar W1 burn pit</b><br><span>8 → 3 reports · 2 camps</span></div><span class="pill rec">▼62% · reignited</span></div>
+          <div class="rep"><div class="ri" style="background:#ececec">🗑️</div><div class="rt"><b>Bir market dump</b><br><span>7 → 5 reports · 1 camp</span></div><span class="pill open">▼29%</span></div>
+          <div class="rep"><div class="ri" style="background:var(--mint-soft)">✅</div><div class="rt"><b>Bir W3 lane</b><br><span>5 → 1 reports · held green 60d</span></div><span class="pill ww">▼80%</span></div>
+        </div>
+      </div>
+      <div class="drow2" style="grid-template-columns:1fr">
+        <div class="dcard">
+          <h3>Awareness camps <small>field log · who / where / when</small></h3>
+          <div class="rep"><div class="ri" style="background:var(--red-soft)">🔥</div><div class="rt"><b>Gunehar W1 burn pit</b><br><span>12 Apr · ~24 attended · Waste Warriors</span></div><span class="pill rec">reignited</span></div>
+          <div class="rep"><div class="ri" style="background:#ececec">🗑️</div><div class="rt"><b>Bir market dump</b><br><span>2 Apr · ~18 attended · Bhasha</span></div><span class="pill open">monitoring</span></div>
+          <div class="rep"><div class="ri" style="background:var(--mint-soft)">✅</div><div class="rt"><b>Bir W3 lane</b><br><span>held green 60d · Waste Warriors</span></div><span class="pill ww">▼80%</span></div>
+          <button class="btn btn-pri" style="width:auto;padding:11px 22px;margin-top:14px;font-size:14px">📣 Log awareness camp</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div></div>
 

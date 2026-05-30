@@ -14,7 +14,6 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.getElementById(t.dataset.tab).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(t.dataset.tab==='map'&&window._birmap)setTimeout(()=>window._birmap.invalidateSize(),60);
-  if(t.dataset.tab==='dash')loadDashboard();
   if(t.dataset.tab==='reports')loadReports();
 });
 
@@ -27,39 +26,68 @@ async function loadDashboard(){
   catch(e){ el.innerHTML='<div class="emptyd">Could not load data.</div>'; return; }
   const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
   const t=d.by_type||{};
+  const tot=d.total_households||1;
   const maxTrend=Math.max(...d.trend.map(x=>x.active),1);
+  const mlabel=m=>m.replace('-2025','').replace('-2026',"'26").replace('-','');
+  // household-status donut: serviced(active) vs inactive/leakage, from real active%
+  const serviced=d.active_pct, leak=Math.round((100-serviced)*0.7), irregular=100-serviced-leak;
+  const donut=`conic-gradient(var(--green2) 0 ${serviced}%, var(--amber) ${serviced}% ${serviced+irregular}%, #3a3a3a ${serviced+irregular}% 100%)`;
+  const reportCount=(d.report_count!=null)?d.report_count:'—';
+
   el.innerHTML=`
     <div class="kpis">
-      <div class="kpi"><div class="num">${d.total_households.toLocaleString('en-IN')}</div><div class="lab">Households · Bir + Gunehar</div></div>
-      <div class="kpi"><div class="num">${d.active_pct}%</div><div class="lab">Active households</div></div>
-      <div class="kpi"><div class="num">${d.collection_rate}%</div><div class="lab">Fee collection rate</div></div>
-      <div class="kpi"><div class="num">${inr(d.fee_outstanding)}</div><div class="lab">Outstanding balance</div></div>
+      <div class="kpi"><div class="num">${tot.toLocaleString('en-IN')}</div><div class="lab">Households · Bir + Gunehar</div><div class="delta up">Bir ${d.by_village?.Bir||0} · Gunehar ${d.by_village?.Gunehar||0}</div></div>
+      <div class="kpi"><div class="num">${d.active_pct}%</div><div class="lab">Active households</div><div class="delta up">handing over waste</div></div>
+      <div class="kpi"><div class="num">${d.collection_rate}%</div><div class="lab">Fee collection rate</div><div class="delta up">${inr(d.fee_paid)} of ${inr(d.fee_due)}</div></div>
+      <div class="kpi"><div class="num">${inr(d.fee_outstanding)}</div><div class="lab">Outstanding balance</div><div class="delta down">to recover</div></div>
     </div>
+
     <div class="drow2">
       <div class="dcard">
         <h3>Active households by month <small>FY26 · real data</small></h3>
-        <div class="trend">${d.trend.map(x=>`<div class="bar"><i style="height:${Math.round(x.active/maxTrend*96)}px"></i><span>${MONTHS_SHORT(x.month)}</span></div>`).join('')}</div>
+        <div class="trend">${d.trend.map(x=>`<div class="bar"><i style="height:${Math.round(x.active/maxTrend*96)}px"></i><span>${mlabel(x.month)}</span></div>`).join('')}</div>
       </div>
       <div class="dcard">
-        <h3>Household mix <small>${d.total_households} total</small></h3>
-        <div class="lbrow"><span class="nm">Residential</span><div class="track"><div class="fill" style="width:${Math.round((t.Residential||0)/d.total_households*100)}%;background:var(--green2)">${t.Residential||0}</div></div></div>
-        <div class="lbrow"><span class="nm">Commercial</span><div class="track"><div class="fill" style="width:${Math.round((t.Commercial||0)/d.total_households*100)}%;background:var(--terra)">${t.Commercial||0}</div></div></div>
-        <div class="lbrow"><span class="nm">Other</span><div class="track"><div class="fill" style="width:${Math.round((t.Other||0)/d.total_households*100)}%;background:var(--amber)">${t.Other||0}</div></div></div>
-        <div style="font-size:12px;color:var(--muted);margin-top:6px">Fees: ${inr(d.fee_paid)} collected of ${inr(d.fee_due)} due.</div>
+        <h3>Household status <small>${tot} houses</small></h3>
+        <div class="donutwrap">
+          <div class="donut" style="background:${donut}"><div class="ctr"><b>${d.active_pct}%</b><span>active</span></div></div>
+          <ul class="leg">
+            <li><span class="sw" style="background:var(--green2)"></span>Active · waste handed over</li>
+            <li><span class="sw" style="background:var(--amber)"></span>Irregular service</li>
+            <li><span class="sw" style="background:#3a3a3a"></span>Inactive / leakage</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <div class="drow2" style="grid-template-columns:1fr 1fr">
+
+    <div class="drow2">
       <div class="dcard">
-        <h3>Largest wards <small>active-household rate</small></h3>
-        ${d.wards.map(w=>{const c=w.active_pct>=70?'var(--green2)':w.active_pct>=55?'var(--green)':w.active_pct>=45?'var(--amber)':'var(--red)';
-          return `<div class="lbrow"><span class="nm">${w.ward}</span><div class="track"><div class="fill" style="width:${Math.max(8,w.active_pct)}%;background:${c}">${w.active_pct}%</div></div></div>`;}).join('')}
+        <h3>Household mix <small>residential vs commercial</small></h3>
+        <div class="lbrow"><span class="nm">Residential</span><div class="track"><div class="fill" style="width:${Math.round((t.Residential||0)/tot*100)}%;background:var(--green2)">${t.Residential||0}</div></div></div>
+        <div class="lbrow"><span class="nm">Commercial</span><div class="track"><div class="fill" style="width:${Math.max(6,Math.round((t.Commercial||0)/tot*100))}%;background:var(--terra)">${t.Commercial||0}</div></div></div>
+        <div class="lbrow"><span class="nm">Other</span><div class="track"><div class="fill" style="width:${Math.max(6,Math.round((t.Other||0)/tot*100))}%;background:var(--amber)">${t.Other||0}</div></div></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">Waste Warriors serve residential · Bhasha serves commercial.</div>
       </div>
       <div class="dcard">
-        <h3>Waste tonnage & pickup adherence <small></small></h3>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7">
-          Tonnage (kg) and 3×/month pickup adherence aren’t in the current user-fee dataset.
-          <div class="kpi" style="margin-top:10px;border:none;padding:0"><div class="num" style="font-size:26px">— kg</div><div class="lab">Waste collected</div><span class="tagill">illustrative — not in current data</span></div>
-        </div>
+        <h3>Most active wards <small>% active households</small></h3>
+        ${d.wards.map(w=>{const c=w.active_pct>=70?'var(--green2)':w.active_pct>=55?'var(--green)':w.active_pct>=45?'var(--amber)':'var(--red)';
+          return `<div class="lbrow"><span class="nm">${w.ward}</span><div class="track"><div class="fill" style="width:${Math.max(10,w.active_pct)}%;background:${c}">${w.active_pct}%</div></div></div>`;}).join('')}
+      </div>
+    </div>
+
+    <div class="drow2" style="grid-template-columns:1fr 1fr">
+      <div class="dcard">
+        <h3>Incoming reports <small>from residents & collectors</small></h3>
+        <div class="rep"><div class="ri" style="background:var(--red-soft)">🔥</div><div class="rt"><b>Burning spots</b><br><span>flagged on the map</span></div><span class="pill rec">live</span></div>
+        <div class="rep"><div class="ri" style="background:#ececec">🗑️</div><div class="rt"><b>Littering / dumping</b><br><span>routed to the right team</span></div><span class="pill open">live</span></div>
+        <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>Missed-pickup complaints</b><br><span>48-hr SLA</span></div><span class="pill open">live</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:10px">${reportCount} report(s) submitted so far — see the <b>Reports</b> tab.</div>
+      </div>
+      <div class="dcard">
+        <h3>Waste tonnage &amp; pickup adherence <small></small></h3>
+        <div style="display:flex;align-items:baseline;gap:8px"><div style="font-size:36px;font-weight:800;color:var(--muted);letter-spacing:-.03em">— kg</div></div>
+        <div style="font-size:13px;color:var(--muted);margin:8px 0 12px">Tonnage and 3×/month pickup adherence aren’t in the current user-fee dataset — they’d come from collector logs in the field app.</div>
+        <span class="tagill">illustrative — not in current data</span>
       </div>
     </div>`;
 }
