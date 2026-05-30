@@ -224,14 +224,35 @@ async function loadReports(){
 
 /* ===== MAP (Leaflet + OSM) ===== */
 const pins=[
-  {lat:32.0520,lng:76.7250,layer:'black',icon:'🗑️',title:'Roadside dump',sub:'Bir–Gunehar road',reports:4,stream:'ww',status:'open'},
-  {lat:32.0462,lng:76.7222,layer:'black',icon:'🗑️',title:'Dump by khad',sub:'Bir bazaar',reports:5,stream:'bh',status:'open',focus:'Bir market',camps:1,before:7,now:5},
-  {lat:32.0432,lng:76.7248,layer:'burn',icon:'🔥',title:'Plastic burning',sub:'Bir W3',reports:1,stream:'ww',status:'open'},
+  /* 🔥 BURNING spots */
+  {lat:32.0432,lng:76.7248,layer:'burn',icon:'🔥',title:'Plastic burning',sub:'Bir W3',reports:2,stream:'ww',status:'open'},
   {lat:32.0598,lng:76.7282,layer:'burn',icon:'🔥',title:'Burn pit',sub:'Gunehar W1',reports:3,stream:'ww',status:'rec',focus:'Gunehar W1',camps:2,before:8,now:3},
-  {lat:32.0472,lng:76.7210,layer:'ww',icon:'✓',title:'Verified household',sub:'Bir W1',reports:0,stream:'ww',status:'clean'},
-  {lat:32.0578,lng:76.7252,layer:'ww',icon:'✓',title:'Verified household',sub:'Gunehar W2',reports:0,stream:'ww',status:'clean'},
-  {lat:32.0418,lng:76.7176,layer:'bh',icon:'★',title:'Café Skyline',sub:'Bhasha · Chougan',reports:0,stream:'bh',status:'partner'},
-  {lat:32.0458,lng:76.7230,layer:'bh',icon:'★',title:'Bazaar Dhaba',sub:'Bhasha · Bir market',reports:0,stream:'bh',status:'partner'}
+  {lat:32.0505,lng:76.7305,layer:'burn',icon:'🔥',title:'Evening burning',sub:'Keori road',reports:2,stream:'ww',status:'open'},
+  {lat:32.0560,lng:76.7228,layer:'burn',icon:'🔥',title:'Leaf & plastic fire',sub:'Gunehar W3',reports:1,stream:'ww',status:'open'},
+  {lat:32.0388,lng:76.7205,layer:'burn',icon:'🔥',title:'Roadside burning',sub:'Chougan lane',reports:4,stream:'ww',status:'rec',focus:'Chougan',camps:1,before:6,now:4},
+  {lat:32.0445,lng:76.7290,layer:'burn',icon:'🔥',title:'Backyard burning',sub:'Bir W2',reports:1,stream:'ww',status:'open'},
+  /* 🗑️ LITTERING / dumping spots */
+  {lat:32.0520,lng:76.7250,layer:'black',icon:'🗑️',title:'Roadside dump',sub:'Bir–Gunehar road',reports:4,stream:'ww',status:'open'},
+  {lat:32.0462,lng:76.7222,layer:'black',icon:'🗑️',title:'Dump by khad',sub:'Bir bazaar',reports:5,stream:'bh',status:'rec',focus:'Bir market',camps:1,before:7,now:5},
+  {lat:32.0540,lng:76.7195,layer:'black',icon:'🗑️',title:'Overflow point',sub:'Bir W4',reports:3,stream:'ww',status:'open'},
+  {lat:32.0480,lng:76.7330,layer:'black',icon:'🗑️',title:'Khad dumping',sub:'Keori',reports:2,stream:'ww',status:'open'},
+  {lat:32.0610,lng:76.7250,layer:'black',icon:'🗑️',title:'Market waste pile',sub:'Gunehar bazaar',reports:4,stream:'bh',status:'open'},
+  {lat:32.0408,lng:76.7235,layer:'black',icon:'🗑️',title:'Tourist-area litter',sub:'Chougan landing',reports:3,stream:'bh',status:'open'},
+  /* ✓ WASTE WARRIORS — verified HOUSEHOLDS (residential) */
+  {lat:32.0472,lng:76.7210,layer:'ww',icon:'✓',title:'Verified household',sub:'Bir W1 · residential',reports:0,stream:'ww',status:'clean'},
+  {lat:32.0468,lng:76.7218,layer:'ww',icon:'✓',title:'Verified household',sub:'Bir W1 · residential',reports:0,stream:'ww',status:'clean'},
+  {lat:32.0578,lng:76.7252,layer:'ww',icon:'✓',title:'Verified household',sub:'Gunehar W2 · residential',reports:0,stream:'ww',status:'clean'},
+  {lat:32.0585,lng:76.7240,layer:'ww',icon:'✓',title:'Verified household',sub:'Gunehar W2 · residential',reports:0,stream:'ww',status:'clean'},
+  {lat:32.0455,lng:76.7265,layer:'ww',icon:'✓',title:'Verified household',sub:'Bir W2 · residential',reports:0,stream:'ww',status:'clean'},
+  {lat:32.0530,lng:76.7270,layer:'ww',icon:'✓',title:'Verified household',sub:'Bir W3 · residential',reports:0,stream:'ww',status:'clean'},
+  {lat:32.0595,lng:76.7295,layer:'ww',icon:'✓',title:'Verified household',sub:'Gunehar W1 · residential',reports:0,stream:'ww',status:'clean'},
+  /* ★ BHASHA — verified COMMERCIAL partners */
+  {lat:32.0418,lng:76.7176,layer:'bh',icon:'★',title:'Café Skyline',sub:'Bhasha · commercial · Chougan',reports:0,stream:'bh',status:'partner'},
+  {lat:32.0458,lng:76.7230,layer:'bh',icon:'★',title:'Bazaar Dhaba',sub:'Bhasha · commercial · Bir market',reports:0,stream:'bh',status:'partner'},
+  {lat:32.0402,lng:76.7188,layer:'bh',icon:'★',title:'Mountain Homestay',sub:'Bhasha · commercial · Chougan',reports:0,stream:'bh',status:'partner'},
+  {lat:32.0440,lng:76.7212,layer:'bh',icon:'★',title:'Bir Tea House',sub:'Bhasha · commercial · Bir bazaar',reports:0,stream:'bh',status:'partner'},
+  {lat:32.0608,lng:76.7262,layer:'bh',icon:'★',title:'Gunehar Guesthouse',sub:'Bhasha · commercial · Gunehar',reports:0,stream:'bh',status:'partner'},
+  {lat:32.0395,lng:76.7215,layer:'bh',icon:'★',title:'Paragliding Café',sub:'Bhasha · commercial · landing site',reports:0,stream:'bh',status:'partner'}
 ];
 const colors={burn:'#e2552e',black:'#3a3a3a',ww:'#40916c',bh:'#cf6f4e'};
 const active={burn:false,black:false,ww:false,bh:false};
