@@ -10,8 +10,3 @@ dependencies = [
     "python-multipart>=0.0.29",
     "uvicorn[standard]>=0.48.0",
 ]
-
-[tool.vercel]
-# Vercel auto-detects `app` at app/main.py, but pin it explicitly so the
-# entrypoint is unambiguous. Render is unaffected (it uses the Dockerfile).
-entrypoint = "app.main:app"
