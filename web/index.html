@@ -3,175 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saaf Bir</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="/styles.css"/>
+<title>Saaf Bir → Saaf India</title>
+<style>
+  :root{
+    --forest:#173d2d; --green:#2d6a4f; --green2:#40916c; --mint:#95d5b2; --mint-soft:#d8f3dc;
+    --sand:#eef1ea; --ink:#1c2a24; --muted:#647469; --line:#e3ddd0; --terra:#cf6f4e;
+    --shadow:0 14px 40px rgba(23,61,45,.14); --shadow-sm:0 4px 14px rgba(23,61,45,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);-webkit-font-smoothing:antialiased;background:var(--sand)}
+  a{text-decoration:none}
+
+  /* HERO */
+  .hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:48px 22px;position:relative;overflow:hidden;
+    background:radial-gradient(1200px 600px at 50% -10%, #235741 0%, #10301f 60%, #0c2517 100%);color:#fff}
+  .logo{width:72px;height:72px;border-radius:20px;background:var(--mint);color:var(--forest);
+    display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;margin-bottom:26px;
+    box-shadow:0 8px 30px rgba(0,0,0,.3)}
+  .arc{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  .arc h1{font-size:clamp(40px,9vw,84px);font-weight:800;letter-spacing:-.04em;line-height:1}
+  .arc .from{color:#fff} .arc .to{color:var(--mint)}
+  .arc .ar{font-size:clamp(28px,6vw,52px);color:var(--mint);opacity:.85}
+  .sub{font-size:clamp(15px,2.4vw,19px);color:rgba(255,255,255,.82);max-width:560px;margin:18px auto 0;line-height:1.55}
+  .cta{display:inline-flex;align-items:center;gap:10px;margin-top:34px;background:var(--mint);color:var(--forest);
+    font-size:17px;font-weight:800;padding:16px 30px;border-radius:16px;box-shadow:var(--shadow);transition:transform .12s}
+  .cta:hover{transform:translateY(-2px)}
+  .scrollhint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);
+    font-size:12.5px;letter-spacing:.05em}
+
+  /* SECTIONS */
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px}
+  section{padding:72px 0}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--green2);text-align:center}
+  .stitle{font-size:clamp(26px,4vw,34px);font-weight:800;color:var(--forest);text-align:center;letter-spacing:-.02em;margin:8px 0 10px}
+  .slead{font-size:16px;color:var(--muted);text-align:center;max-width:620px;margin:0 auto 40px;line-height:1.6}
+
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pillar{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow-sm)}
+  .pillar .pi{width:50px;height:50px;border-radius:14px;background:var(--mint-soft);display:flex;align-items:center;
+    justify-content:center;font-size:26px;margin-bottom:14px}
+  .pillar h3{font-size:18px;color:var(--forest);margin-bottom:6px}
+  .pillar p{font-size:14px;color:var(--muted);line-height:1.55}
+
+  /* journey Bir -> India */
+  .journey{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .steps{display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap}
+  .step{flex:1;min-width:200px;text-align:center;padding:18px}
+  .step .dot{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:22px;margin:0 auto 12px;color:#fff}
+  .step h4{font-size:16px;color:var(--forest)} .step p{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .step .now{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--green2);background:var(--mint-soft);border-radius:20px;padding:3px 10px;display:inline-block;margin-top:8px}
+
+  .closing{text-align:center;background:radial-gradient(900px 400px at 50% 120%, #235741 0%, #10301f 70%);color:#fff;border-radius:24px;
+    padding:54px 28px;margin:0 auto;max-width:880px}
+  .closing h2{font-size:clamp(24px,4vw,32px);font-weight:800;letter-spacing:-.02em}
+  .closing p{color:rgba(255,255,255,.8);max-width:520px;margin:12px auto 0;line-height:1.6}
+  .closing .cta{margin-top:28px}
+
+  footer{padding:34px 22px;text-align:center;color:var(--muted);font-size:12.5px}
+
+  @media(max-width:760px){
+    .pillars{grid-template-columns:1fr} section{padding:54px 0}
+    .arc{gap:8px}
+  }
+</style>
 </head>
 <body>
 
-<div class="top"><div class="wrap">
+<!-- HERO -->
+<header class="hero">
   <div class="logo">♻️</div>
-  <div class="brand"><h1>Saaf Bir</h1><p>Report. Track. Clean up.</p></div>
-</div></div>
-
-<nav class="tabs"><div class="wrap">
-  <button class="tab active" data-tab="map"><span class="ti">🗺️</span><span class="tl"><span class="tl-full">Live Map</span><span class="tl-short">Map</span></span></button>
-  <button class="tab" data-tab="report"><span class="ti">📸</span><span class="tl"><span class="tl-full">Report a Spot</span><span class="tl-short">Report</span></span></button>
-  <button class="tab" data-tab="dash"><span class="ti">📊</span><span class="tl"><span class="tl-full">Dashboard</span><span class="tl-short">Stats</span></span></button>
-  <button class="tab" data-tab="collector"><span class="ti">📱</span><span class="tl"><span class="tl-full">Collector</span><span class="tl-short">Collect</span></span></button>
-  <button class="tab" data-tab="reports"><span class="ti">📷</span><span class="tl"><span class="tl-full">Reports</span><span class="tl-short">Photos</span></span></button>
-</div></nav>
-
-<!-- MAP -->
-<div class="panel active" id="map"><div class="wrap">
-  <div class="phead"><h2>The living map</h2><p><b>Tap a filter to begin</b> — turn on burning &amp; littering spots, verified households, partners, or green zones. Then tap a pin for details &amp; actions.</p></div>
-  <div class="maplayout">
-    <div class="mapcard">
-      <div class="mapbar">
-        <button class="fchip off" data-layer="burn"><span class="d burn"></span>🔥 Burning</button>
-        <button class="fchip off" data-layer="black"><span class="d black"></span>🗑️ Littering</button>
-        <button class="fchip off" data-layer="ww"><span class="d ww"></span>✓ Waste Warriors</button>
-        <button class="fchip off" data-layer="bh"><span class="d bh"></span>★ Bhasha</button>
-        <button class="fchip off" id="zoneBtn"><span class="d" style="background:#74c69d"></span>🟢 Green zones</button>
-      </div>
-      <div id="mapLeaf"></div>
-    </div>
-    <div class="detail" id="mapDetail"><div class="emptyd">👆 Turn on a filter above, then tap a pin for details and actions.</div></div>
+  <div class="arc">
+    <h1 class="from">Saaf Bir</h1>
+    <span class="ar">→</span>
+    <h1 class="to">Saaf India</h1>
   </div>
-</div></div>
+  <p class="sub">A clean Himalaya begins with one town. We start in Bir &amp; Gunehar — proving a simple loop of report, track, and clean up — then carry it across India.</p>
+  <a class="cta" href="/app.html">Launch the app →</a>
+  <div class="scrollhint">↓ the vision</div>
+</header>
 
-<!-- REPORT -->
-<div class="panel" id="report"><div class="wrap">
-  <div class="phead"><h2>Report it — a spot, or a missed pickup</h2><p>Flag a burning / littering spot, or “my garbage wasn’t collected”. Switch modes at the top.</p></div>
-  <div class="stage">
-    <div class="device"><div class="scr" id="repScr"></div></div>
-    <div class="cap">
-      <h3>Two report types</h3>
-      <ul>
-        <li><span class="n">🗺️</span><span><b>Spot report</b> — photo + geotag → saved to the database &amp; shown in Reports.</span></li>
-        <li><span class="n">🚛</span><span><b>Missed pickup</b> — raises a complaint, tracked with a 48-hr SLA.</span></li>
-        <li><span class="n">✅</span><span>Everything is stored in one database you can export.</span></li>
-      </ul>
-      <p class="hint">↑ try both modes — photos really upload</p>
+<!-- WHAT IT IS -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">The idea</div>
+    <h2 class="stitle">Clean streets, in everyone's hands</h2>
+    <p class="slead">Saaf turns every resident, collector, café and homestay into part of the clean-up — one tap to report, one map to see it, one team to act.</p>
+    <div class="pillars">
+      <div class="pillar"><div class="pi">📸</div><h3>Report</h3><p>Anyone can flag burning, littering, or a missed pickup — with a photo and location, in seconds.</p></div>
+      <div class="pillar"><div class="pi">🗺️</div><h3>Track</h3><p>Every report lands on a live map and dashboard, so nothing quietly falls through the cracks.</p></div>
+      <div class="pillar"><div class="pi">🤝</div><h3>Clean up</h3><p>Waste Warriors serve households, Bhasha serves businesses — and awareness camps stop problems coming back.</p></div>
     </div>
   </div>
-</div></div>
+</section>
 
-<!-- DASHBOARD -->
-<div class="panel" id="dash"><div class="wrap">
-  <div class="phead"><h2>Admin dashboard</h2><p>Real FY26 Bir &amp; Gunehar user-fee data — household coverage, fee collection, and where it’s leaking.</p></div>
-  <div class="browser">
-    <div class="bbar"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
-      <div class="url">saaf-bir · live data</div></div>
-    <div class="dash">
-      <div class="kpis">
-        <div class="kpi"><div class="num">4,200 kg</div><div class="lab">Waste collected · Apr</div><div class="delta up">▲ 600 kg vs Mar</div></div>
-        <div class="kpi"><div class="num">86%</div><div class="lab">Pickup adherence (3×/mo)</div><div class="delta up">▲ 4% — fewer misses</div></div>
-        <div class="kpi"><div class="num">14</div><div class="lab">Active hotspots</div><div class="delta down">▲ 3 new this week</div></div>
-        <div class="kpi"><div class="num">26%</div><div class="lab">Ward leakage rate</div><div class="delta up">▼ 5% — improving</div></div>
-      </div>
-      <div class="drow2">
-        <div class="dcard">
-          <h3>Waste collected <small>kg · dry vs wet</small></h3>
-          <div style="display:flex;align-items:flex-end;gap:16px;height:130px;padding:6px 4px 0">
-            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:34%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:24%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Jan<br><b style="color:var(--ink)">3,100</b></div></div>
-            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:40%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:26%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Feb<br><b style="color:var(--ink)">3,400</b></div></div>
-            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:44%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:28%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Mar<br><b style="color:var(--ink)">3,600</b></div></div>
-            <div style="flex:1;text-align:center"><div style="display:flex;flex-direction:column-reverse;height:96px"><div style="height:52%;background:var(--green2);border-radius:0 0 5px 5px"></div><div style="height:32%;background:var(--mint)"></div></div><div style="font-size:11px;color:var(--muted);margin-top:6px">Apr<br><b style="color:var(--ink)">4,200</b></div></div>
-          </div>
-          <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--muted)"><span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--green2);vertical-align:-1px"></span> Dry 61%</span><span><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--mint);vertical-align:-1px"></span> Wet 39%</span></div>
-        </div>
-        <div class="dcard">
-          <h3>Collection reliability <small>pickups due 3×/mo</small></h3>
-          <div style="display:flex;align-items:baseline;gap:8px"><div style="font-size:40px;font-weight:800;color:var(--forest);letter-spacing:-.03em">86%</div><div style="font-size:12px;color:var(--muted)">of due pickups done</div></div>
-          <div style="font-size:13px;color:var(--muted);margin:8px 0 14px">1,184 houses × 3 = <b style="color:var(--ink)">3,552 due</b> · 3,071 done</div>
-          <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>7 open complaints</b><br><span>"garbage not collected"</span></div><span class="pill open">live</span></div>
-          <div class="rep"><div class="ri" style="background:var(--mint-soft)">⏱️</div><div class="rt"><b>31 hrs avg resolution</b><br><span>SLA target: 48 hrs ✓</span></div></div>
-        </div>
-      </div>
-      <div class="drow2">
-        <div class="dcard">
-          <h3>Cleanest wards <small>leakage rate · lower is better</small></h3>
-          <div class="lbrow"><span class="nm">Bir W1</span><div class="track"><div class="fill" style="width:88%;background:var(--green2)">12% leak</div></div></div>
-          <div class="lbrow"><span class="nm">Bir W3</span><div class="track"><div class="fill" style="width:74%;background:var(--green)">26% leak</div></div></div>
-          <div class="lbrow"><span class="nm">Gunehar W2</span><div class="track"><div class="fill" style="width:61%;background:var(--amber)">39% leak</div></div></div>
-          <div class="lbrow"><span class="nm">Gunehar W1</span><div class="track"><div class="fill" style="width:48%;background:var(--red)">52% leak</div></div></div>
-        </div>
-        <div class="dcard">
-          <h3>Household status <small>1,184 houses</small></h3>
-          <div class="donutwrap">
-            <div class="donut"><div class="ctr"><b>58%</b><span>serviced</span></div></div>
-            <ul class="leg">
-              <li><span class="sw" style="background:var(--green2)"></span>Serviced (waste handed over)</li>
-              <li><span class="sw" style="background:var(--amber)"></span>Active, irregular</li>
-              <li><span class="sw" style="background:var(--red)"></span>Burning (flagged)</li>
-              <li><span class="sw" style="background:#3a3a3a"></span>"No waste" / leakage</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="drow2" style="grid-template-columns:1fr 1fr">
-        <div class="dcard">
-          <h3>Missed-pickup complaints <small>auto-routed to collector</small></h3>
-          <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>#C-207 · BIR-142 · Bir W2</b><br><span>missed 25th pickup · open 12 hrs</span></div><span class="pill open">Open</span></div>
-          <div class="rep"><div class="ri" style="background:var(--amber-soft)">🚛</div><div class="rt"><b>#C-206 · BIR-77 · Bir W1</b><br><span>missed 25th pickup · open 4 hrs</span></div><span class="pill open">Open</span></div>
-          <div class="rep"><div class="ri" style="background:var(--mint-soft)">✓</div><div class="rt"><b>#C-205 · GUN-88 · Gunehar W3</b><br><span>collected next day · 28 hrs</span></div><span class="pill ww">Resolved</span></div>
-        </div>
-        <div class="dcard">
-          <h3>Did the awareness camps work? <small>reports before → after</small></h3>
-          <div class="rep"><div class="ri" style="background:var(--red-soft)">🔥</div><div class="rt"><b>Gunehar W1 burn pit</b><br><span>8 → 3 reports · 2 camps</span></div><span class="pill rec">▼62% · reignited</span></div>
-          <div class="rep"><div class="ri" style="background:#ececec">🗑️</div><div class="rt"><b>Bir market dump</b><br><span>7 → 5 reports · 1 camp</span></div><span class="pill open">▼29%</span></div>
-          <div class="rep"><div class="ri" style="background:var(--mint-soft)">✅</div><div class="rt"><b>Bir W3 lane</b><br><span>5 → 1 reports · held green 60d</span></div><span class="pill ww">▼80%</span></div>
-        </div>
-      </div>
-      <div class="drow2" style="grid-template-columns:1fr">
-        <div class="dcard">
-          <h3>Awareness camps <small>field log · who / where / when</small></h3>
-          <div class="rep"><div class="ri" style="background:var(--red-soft)">🔥</div><div class="rt"><b>Gunehar W1 burn pit</b><br><span>12 Apr · ~24 attended · Waste Warriors</span></div><span class="pill rec">reignited</span></div>
-          <div class="rep"><div class="ri" style="background:#ececec">🗑️</div><div class="rt"><b>Bir market dump</b><br><span>2 Apr · ~18 attended · Bhasha</span></div><span class="pill open">monitoring</span></div>
-          <div class="rep"><div class="ri" style="background:var(--mint-soft)">✅</div><div class="rt"><b>Bir W3 lane</b><br><span>held green 60d · Waste Warriors</span></div><span class="pill ww">▼80%</span></div>
-          <button class="btn btn-pri" style="width:auto;padding:11px 22px;margin-top:14px;font-size:14px">📣 Log awareness camp</button>
-        </div>
-      </div>
+<!-- JOURNEY -->
+<section class="journey">
+  <div class="wrap">
+    <div class="eyebrow">The journey</div>
+    <h2 class="stitle">It starts with Bir.</h2>
+    <p class="slead">Prove the model in one valley, then take it wherever waste needs a system.</p>
+    <div class="steps">
+      <div class="step"><div class="dot" style="background:var(--green2)">🏔️</div><h4>Bir &amp; Gunehar</h4><p>The pilot — community reporting, fee-based collection, and clean wards.</p><span class="now">We are here</span></div>
+      <div class="step"><div class="dot" style="background:var(--green)">🪂</div><h4>Himalayan towns</h4><p>Tourist &amp; hill towns where waste hits hardest — and visibility matters most.</p></div>
+      <div class="step"><div class="dot" style="background:var(--terra)">🇮🇳</div><h4>Saaf India</h4><p>A repeatable playbook any community can run to keep its own streets clean.</p></div>
     </div>
   </div>
-</div></div>
+</section>
 
-<!-- COLLECTOR -->
-<div class="panel" id="collector"><div class="wrap">
-  <div class="phead"><h2>The collector’s daily loop</h2><p>The field tool: log each house as collected, take a UPI payment, or flag burning / refusal in one tap.</p></div>
-  <div class="stage">
-    <div class="device"><div class="scr" id="colScr"></div></div>
-    <div class="cap">
-      <h3>What’s happening</h3>
-      <ul>
-        <li><span class="n">1</span><span><b>Next house auto-loads</b> in route order.</span></li>
-        <li><span class="n">2</span><span><b>Collected</b> logs the pickup to the database.</span></li>
-        <li><span class="n">3</span><span><b>Skip</b> → tap a reason. Burning &amp; refusals become data.</span></li>
-      </ul>
-      <p class="hint">↑ buttons are live — every action is saved</p>
+<!-- CLOSING -->
+<section>
+  <div class="wrap">
+    <div class="closing">
+      <h2>Clean begins with one tap.</h2>
+      <p>See the live map, report a spot, and watch a town get cleaner — Saaf Bir is working today.</p>
+      <a class="cta" href="/app.html">Launch the app →</a>
     </div>
   </div>
-</div></div>
+</section>
 
-<!-- REPORTS GALLERY -->
-<div class="panel" id="reports"><div class="wrap">
-  <div class="phead"><h2>Reports coming in</h2><p>Live feed of what people on the ground flagged — photo, type &amp; location. Real submissions, stored in the database.</p></div>
-  <div class="exportbar">
-    <a href="/api/export/db" download>⬇️ Export full database (.db)</a>
-    <a href="/api/export/reports.csv" download>⬇️ Reports CSV</a>
-    <a href="/api/export/households.csv" download>⬇️ Households CSV</a>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;max-width:900px;margin:0 auto 14px">
-    <div id="repCount" style="font-size:13px;color:var(--muted)">Loading…</div>
-    <button class="btn btn-ghost" style="width:auto;padding:9px 16px;font-size:13px;margin:0" onclick="loadReports()">↻ Refresh</button>
-  </div>
-  <div id="repGrid" class="repgrid"></div>
-</div></div>
+<footer>Saaf Bir · a clean-up movement for Bir &amp; Gunehar, built to scale across India</footer>
 
-<footer><div class="wrap">Saaf Bir · live app · FastAPI + SQLite · FY26 Bir &amp; Gunehar data</div></footer>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="/app.js"></script>
 </body>
 </html>
