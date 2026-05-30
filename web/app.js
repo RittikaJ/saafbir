@@ -237,7 +237,26 @@ const colors={burn:'#e2552e',black:'#3a3a3a',ww:'#40916c',bh:'#cf6f4e'};
 const active={burn:false,black:false,ww:false,bh:false};
 const map=L.map('mapLeaf',{scrollWheelZoom:false}).setView([32.049,76.723],14);
 window._birmap=map;
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+// two base layers: streets (default) + satellite (Esri World Imagery, free, no key)
+const streets=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'});
+const satellite=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Imagery © Esri'});
+const labels=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'© CARTO'});
+streets.addTo(map);
+// Map / Satellite toggle control (top-right)
+const ViewToggle=L.Control.extend({options:{position:'topright'},
+  onAdd:function(){
+    const b=L.DomUtil.create('button','viewtoggle');
+    b.textContent='🛰️ Satellite'; b.type='button';
+    L.DomEvent.disableClickPropagation(b);
+    let sat=false;
+    b.onclick=()=>{
+      sat=!sat;
+      if(sat){map.removeLayer(streets);satellite.addTo(map);labels.addTo(map);b.textContent='🗺️ Map';}
+      else{map.removeLayer(satellite);map.removeLayer(labels);streets.addTo(map);b.textContent='🛰️ Satellite';}
+    };
+    return b;
+  }});
+map.addControl(new ViewToggle());
 const groups={burn:L.layerGroup(),black:L.layerGroup(),ww:L.layerGroup(),bh:L.layerGroup()};
 pins.forEach((p,idx)=>{
   const sz=(p.layer==='burn'||p.layer==='black')?30:24;
