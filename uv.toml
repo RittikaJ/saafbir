@@ -1,0 +1,5 @@
+# Pin public PyPI for this project so builds never depend on a private/internal
+# registry (keeps the repo portable and buildable on any host).
+[[index]]
+url = "https://pypi.org/simple"
+default = true
